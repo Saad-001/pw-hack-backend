@@ -11,6 +11,7 @@ const {
   searchBill,
 } = require("./controllers/BillingController");
 const { logIn, register } = require("./controllers/authController");
+const port = process.env.PORT || 8000;
 
 dotenv.config();
 const app = express();
@@ -51,6 +52,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8000, () => {
+app.listen(port, () => {
   connect();
 });
