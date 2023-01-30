@@ -20,6 +20,7 @@ app.use(cookieParser());
 
 const connect = async () => {
   try {
+    mongoose.set("strictQuery", false);
     await mongoose.connect(process.env.MONGODB_URL);
     console.log("connected to mongodb");
   } catch (error) {
