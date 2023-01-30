@@ -8,9 +8,9 @@ const {
   getBillingList,
   updateBill,
   deleteBill,
+  searchBill,
 } = require("./controllers/BillingController");
 const { logIn, register } = require("./controllers/authController");
-const { verifyUser } = require("./utils/verifyToken");
 
 dotenv.config();
 const app = express();
@@ -37,6 +37,7 @@ app.get("/api/billing-list", getBillingList);
 app.post("/api/add-billing", createNewBill);
 app.post("/api/update-billing/:id", updateBill);
 app.delete("/api/delete-billing/:id", deleteBill);
+app.get("/api/search", searchBill);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;

@@ -15,6 +15,7 @@ const getBillingList = async (req, res, next) => {
   const limit = req.query.limit;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
+  // console.log(req.query);
   try {
     const bills = await Bill.find();
     let billsData;
@@ -28,6 +29,41 @@ const getBillingList = async (req, res, next) => {
     res.status(200).json({ len: bills.length, data: billsData });
   } catch (err) {
     next(err);
+  }
+};
+
+const searchBill = async (req, res, next) => {
+  const fullName = req.query.name;
+  const email = req.query.email;
+  const phone = req.query.phone;
+
+  if (req.query.name) {
+    try {
+      const searchVal = await Bill.find({ fullName: fullName });
+      if (searchVal) {
+        res.status(200).json(searchVal);
+      }
+    } catch (err) {
+      next(err);
+    }
+  } else if (req.query.email) {
+    try {
+      const searchVal = await Bill.find({ email: email });
+      if (searchVal) {
+        res.status(200).json(searchVal);
+      }
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    try {
+      const searchVal = await Bill.find({ phone: phone });
+      if (searchVal) {
+        res.status(200).json(searchVal);
+      }
+    } catch (err) {
+      next(err);
+    }
   }
 };
 
@@ -55,4 +91,10 @@ const deleteBill = async (req, res, next) => {
   }
 };
 
-module.exports = { createNewBill, getBillingList, updateBill, deleteBill };
+module.exports = {
+  createNewBill,
+  getBillingList,
+  updateBill,
+  deleteBill,
+  searchBill,
+};

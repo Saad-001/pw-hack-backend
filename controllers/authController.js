@@ -4,7 +4,6 @@ const User = require("../models/User.js");
 
 const register = async (req, res, next) => {
   const saltRounds = 10;
-  console.log("from register");
   try {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(req.body.password, salt);
@@ -38,12 +37,7 @@ const logIn = async (req, res, next) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
     const { password, ...otherData } = user._doc;
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ ...otherData });
+    res.status(200).json({ ...otherData });
   } catch (err) {
     next(err);
   }
